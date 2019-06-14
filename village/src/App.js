@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Route } from "react-router-dom";
 import axios from "axios";
 
 import "./App.css";
@@ -10,7 +11,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      smurfs: [],
+      smurfs: null,
       spinner: true,
       errorMessage: null
     };
@@ -44,12 +45,22 @@ class App extends Component {
   // Notice what your map function is looping over and returning inside of Smurfs.
   // You'll need to make sure you have the right properties on state and pass them down to props.
   render() {
-    return (
-      <div className="App">
-        <SmurfForm postSmurf={this.postSmurf} />
-        <Smurfs smurfs={this.state.smurfs} />
-      </div>
-    );
+    if (this.state.spinner) {
+      return <div>Loading...</div>;
+    } else {
+      return (
+        <div className="App">
+        {this.state.smurfs && (
+          <Route exact path="/" render={routeProps => (
+            <Smurfs {...routeProps} smurfs={this.state.smurfs} /> 
+          )}/>
+        )}
+        <Route path="/smurf-form" render={routeProps => (
+          <SmurfForm {...routeProps} postSmurf={this.postSmurf} />
+        )} />
+        </div>
+      );
+    }
   }
 }
 
