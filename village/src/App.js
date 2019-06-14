@@ -45,8 +45,16 @@ class App extends Component {
   };
 
   postSmurf = (name, age, height) => {
-    const newSmurf = { name, age, height };
+    const newSmurf = { name, age: parseInt(age, 10), height };
     axios.post(smurfsApi, newSmurf).then(() => this.fetchSmurfs());
+  };
+
+  updateSmurf = (id, name, age, height) => {
+    const updatedSmurf = { name, age: parseInt(age, 10), height };
+    axios
+      .put(`${smurfsApi}/${id}`, updatedSmurf)
+      .then(() => this.fetchSmurfs());
+    this.setState({ selectedSmurf: null });
   };
 
   deleteSmurf = id => {
@@ -60,7 +68,6 @@ class App extends Component {
     if (this.state.spinner) {
       return <div>Loading...</div>;
     } else {
-      console.log(this.state)
       return (
         <div className="App">
           <Navbar />
@@ -81,7 +88,12 @@ class App extends Component {
           <Route
             path="/smurf-form"
             render={routeProps => (
-              <SmurfForm {...routeProps} postSmurf={this.postSmurf} />
+              <SmurfForm
+                {...routeProps}
+                postSmurf={this.postSmurf}
+                updateSmurf={this.updateSmurf}
+                selectedSmurf={this.state.selectedSmurf}
+              />
             )}
           />
         </div>
