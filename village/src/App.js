@@ -5,6 +5,7 @@ import axios from "axios";
 import "./App.css";
 import SmurfForm from "./components/SmurfForm";
 import Smurfs from "./components/Smurfs";
+import Smurf from "./components/Smurf";
 import Navbar from "./components/Navbar";
 
 const smurfsApi = "http://localhost:3333/smurfs";
@@ -93,6 +94,17 @@ class App extends Component {
                 postSmurf={this.postSmurf}
                 updateSmurf={this.updateSmurf}
                 selectedSmurf={this.state.selectedSmurf}
+              />
+            )}
+          />
+          <Route
+            path="/smurf/:id"
+            render={routeProps => (
+              <Smurf
+                {...routeProps}
+                smurfs={this.state.smurfs}
+                selectSmurf={this.selectSmurf}
+                deleteSmurf={this.deleteSmurf}
               />
             )}
           />

@@ -22,6 +22,7 @@ class SmurfForm extends Component {
     } else {
       this.props.postSmurf(this.state.name, this.state.age, this.state.height);
     }
+    this.props.history.push("/");
 
     this.setState({
       name: "",
