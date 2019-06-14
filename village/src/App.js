@@ -5,7 +5,7 @@ import axios from "axios";
 import "./App.css";
 import SmurfForm from "./components/SmurfForm";
 import Smurfs from "./components/Smurfs";
-import Navbar from "./components/Navbar"
+import Navbar from "./components/Navbar";
 
 const smurfsApi = "http://localhost:3333/smurfs";
 class App extends Component {
@@ -14,12 +14,19 @@ class App extends Component {
     this.state = {
       smurfs: null,
       spinner: true,
-      errorMessage: null
+      errorMessage: null,
+      selectedSmurf: null
     };
   }
 
   componentDidMount = () => {
     this.fetchSmurfs();
+  };
+
+  selectSmurf = id => {
+    this.setState({
+      selectedSmurf: this.state.smurfs.find(smurf => smurf.id === id)
+    });
   };
 
   fetchSmurfs = () => {
@@ -44,7 +51,7 @@ class App extends Component {
 
   deleteSmurf = id => {
     axios.delete(`${smurfsApi}/${id}`).then(() => this.fetchSmurfs());
-  }
+  };
 
   // add any needed code to ensure that the smurfs collection exists on state and it has data coming from the server
   // Notice what your map function is looping over and returning inside of Smurfs.
@@ -53,17 +60,30 @@ class App extends Component {
     if (this.state.spinner) {
       return <div>Loading...</div>;
     } else {
+      console.log(this.state)
       return (
         <div className="App">
-        <Navbar />
-        {this.state.smurfs && (
-          <Route exact path="/" render={routeProps => (
-            <Smurfs {...routeProps} smurfs={this.state.smurfs} deleteSmurf={this.deleteSmurf} /> 
-          )}/>
-        )}
-        <Route path="/smurf-form" render={routeProps => (
-          <SmurfForm {...routeProps} postSmurf={this.postSmurf} />
-        )} />
+          <Navbar />
+          {this.state.smurfs && (
+            <Route
+              exact
+              path="/"
+              render={routeProps => (
+                <Smurfs
+                  {...routeProps}
+                  smurfs={this.state.smurfs}
+                  selectSmurf={this.selectSmurf}
+                  deleteSmurf={this.deleteSmurf}
+                />
+              )}
+            />
+          )}
+          <Route
+            path="/smurf-form"
+            render={routeProps => (
+              <SmurfForm {...routeProps} postSmurf={this.postSmurf} />
+            )}
+          />
         </div>
       );
     }
