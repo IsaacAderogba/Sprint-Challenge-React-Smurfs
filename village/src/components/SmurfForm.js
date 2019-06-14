@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import styled from "styled-components";
 
 class SmurfForm extends Component {
   constructor(props) {
@@ -37,8 +38,10 @@ class SmurfForm extends Component {
 
   render() {
     return (
-      <div className="SmurfForm">
-        <form onSubmit={this.addSmurf}>
+      <StyledSmurfForm onSubmit={this.addSmurf}>
+        <h1>Smurf Builder</h1>
+        <div>
+          <p>Name:</p>
           <input
             required
             onChange={this.handleInputChange}
@@ -46,6 +49,9 @@ class SmurfForm extends Component {
             value={this.state.name}
             name="name"
           />
+        </div>
+        <div>
+          <p>Age:</p>
           <input
             required
             onChange={this.handleInputChange}
@@ -53,6 +59,9 @@ class SmurfForm extends Component {
             value={this.state.age}
             name="age"
           />
+        </div>
+        <div>
+          <p>Height:</p>
           <input
             required
             onChange={this.handleInputChange}
@@ -60,13 +69,46 @@ class SmurfForm extends Component {
             value={this.state.height}
             name="height"
           />
-          <button type="submit">
-            {this.props.selectedSmurf ? "Update smurf" : "Add to the village"}
-          </button>
-        </form>
-      </div>
+        </div>
+        <button type="submit">
+          {this.props.selectedSmurf ? "Update smurf" : "Add to the village"}
+        </button>
+      </StyledSmurfForm>
     );
   }
 }
+
+const StyledSmurfForm = styled.form`
+    max-width: 650px;
+    width: 650px;
+    padding: 25px;
+    background-color: white;
+    margin: 0 auto;
+    border-radius: 8px;
+    div {
+        display: flex;
+        align-items: center;
+
+        p {
+            flex-basis: 150px;
+        }
+
+        input {
+            flex-basis: 450px
+            height: 20px;
+            padding-left: 8px;
+        }
+    }
+
+    button {
+        width: 300px;
+        padding: 8px 0px;
+        font-size: 16px;
+        background-color: #539dc1;
+        color: white;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+`;
 
 export default SmurfForm;

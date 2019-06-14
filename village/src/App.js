@@ -7,6 +7,7 @@ import SmurfForm from "./components/SmurfForm";
 import Smurfs from "./components/Smurfs";
 import Smurf from "./components/Smurf";
 import Navbar from "./components/Navbar";
+import PageLoader from './components/PageLoader'
 
 const smurfsApi = "http://localhost:3333/smurfs";
 class App extends Component {
@@ -41,7 +42,6 @@ class App extends Component {
       })
       .finally(() => {
         this.setState({ spinner: false });
-        console.log(this.state);
       });
   };
 
@@ -67,17 +67,41 @@ class App extends Component {
   // You'll need to make sure you have the right properties on state and pass them down to props.
   render() {
     if (this.state.spinner) {
-      return <div>Loading...</div>;
+      return <PageLoader />;
     } else {
       return (
-        <div className="App">
+        <div>
           <Navbar />
-          {this.state.smurfs && (
+          <div className="App">
+            {this.state.smurfs && (
+              <Route
+                exact
+                path="/"
+                render={routeProps => (
+                  <Smurfs
+                    {...routeProps}
+                    smurfs={this.state.smurfs}
+                    selectSmurf={this.selectSmurf}
+                    deleteSmurf={this.deleteSmurf}
+                  />
+                )}
+              />
+            )}
             <Route
-              exact
-              path="/"
+              path="/smurf-form"
               render={routeProps => (
-                <Smurfs
+                <SmurfForm
+                  {...routeProps}
+                  postSmurf={this.postSmurf}
+                  updateSmurf={this.updateSmurf}
+                  selectedSmurf={this.state.selectedSmurf}
+                />
+              )}
+            />
+            <Route
+              path="/smurf/:id"
+              render={routeProps => (
+                <Smurf
                   {...routeProps}
                   smurfs={this.state.smurfs}
                   selectSmurf={this.selectSmurf}
@@ -85,29 +109,7 @@ class App extends Component {
                 />
               )}
             />
-          )}
-          <Route
-            path="/smurf-form"
-            render={routeProps => (
-              <SmurfForm
-                {...routeProps}
-                postSmurf={this.postSmurf}
-                updateSmurf={this.updateSmurf}
-                selectedSmurf={this.state.selectedSmurf}
-              />
-            )}
-          />
-          <Route
-            path="/smurf/:id"
-            render={routeProps => (
-              <Smurf
-                {...routeProps}
-                smurfs={this.state.smurfs}
-                selectSmurf={this.selectSmurf}
-                deleteSmurf={this.deleteSmurf}
-              />
-            )}
-          />
+          </div>
         </div>
       );
     }
