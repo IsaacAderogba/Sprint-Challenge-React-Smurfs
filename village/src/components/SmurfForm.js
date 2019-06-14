@@ -1,25 +1,26 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class SmurfForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: '',
-      age: '',
-      height: ''
+      name: "",
+      age: "",
+      height: ""
     };
   }
 
   addSmurf = event => {
     event.preventDefault();
     // add code to create the smurf using the api
+    this.props.postSmurf(this.state.name, this.state.age, this.state.height);
 
     this.setState({
-      name: '',
-      age: '',
-      height: ''
+      name: "",
+      age: "",
+      height: ""
     });
-  }
+  };
 
   handleInputChange = e => {
     this.setState({ [e.target.name]: e.target.value });
@@ -30,18 +31,21 @@ class SmurfForm extends Component {
       <div className="SmurfForm">
         <form onSubmit={this.addSmurf}>
           <input
+            required
             onChange={this.handleInputChange}
             placeholder="name"
             value={this.state.name}
             name="name"
           />
           <input
+            required
             onChange={this.handleInputChange}
             placeholder="age"
             value={this.state.age}
             name="age"
           />
           <input
+            required
             onChange={this.handleInputChange}
             placeholder="height"
             value={this.state.height}
