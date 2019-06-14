@@ -5,6 +5,7 @@ import axios from "axios";
 import "./App.css";
 import SmurfForm from "./components/SmurfForm";
 import Smurfs from "./components/Smurfs";
+import Navbar from "./components/Navbar"
 
 const smurfsApi = "http://localhost:3333/smurfs";
 class App extends Component {
@@ -50,6 +51,7 @@ class App extends Component {
     } else {
       return (
         <div className="App">
+        <Navbar />
         {this.state.smurfs && (
           <Route exact path="/" render={routeProps => (
             <Smurfs {...routeProps} smurfs={this.state.smurfs} /> 
